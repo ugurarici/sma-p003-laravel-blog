@@ -7,8 +7,10 @@
             <div class="card">
                 <div class="card-header">
                     {{ $category->name }}
+                    @auth
                     <a href="{{ route('categories.edit', $category) }}"
                         class="btn btn-sm btn-warning">{{ __('Edit Category') }}</a>
+                    @endauth
                 </div>
 
                 <div class="card-body">
@@ -19,7 +21,7 @@
                     @endif
 
                     @foreach($category->posts as $post)
-                    <a href="#">
+                    <a href="{{ route('posts.show', $post) }}">
                         {{ $post->title }}
                     </a>
                     @endforeach

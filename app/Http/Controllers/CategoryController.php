@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+        // $this->middleware('can:update,post')->only(['edit', 'update']);
+        // $this->middleware('can:delete,post')->only(['destroy']);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

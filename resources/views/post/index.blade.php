@@ -6,10 +6,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    {{ __('Categories') }}
+                    {{ __('Posts') }}
                     @auth
-                    <a href="{{ route('categories.create') }}"
-                        class="btn btn-sm btn-primary">{{ __('New Category') }}</a>
+                    <a href="{{ route('posts.create') }}" class="btn btn-sm btn-primary">{{ __('New Post') }}</a>
                     @endauth
                 </div>
 
@@ -20,9 +19,9 @@
                     </div>
                     @endif
 
-                    @foreach($categories as $category)
-                    <a href="{{ route('categories.show', $category) }}">
-                        {{ $category->name }}
+                    @foreach($posts as $post)
+                    <a href="{{ route('posts.show', $post) }}">
+                        {{ $post->title }}
                     </a><br>
                     @endforeach
                 </div>
