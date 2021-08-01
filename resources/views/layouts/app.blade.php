@@ -70,7 +70,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item"
                                     href="{{ route('posts.index', ['user' => Auth::user()->id]) }}">
-                                    {{ __('My Posts') }}
+                                    {{ __('My Posts') }} ({{ Auth::user()->posts()->count() }})
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"

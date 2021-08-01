@@ -30,7 +30,7 @@ class PostController extends Controller
         $postsQuery = Post::with(['user', 'category'])->latest();
         if ($request->query('category')) $postsQuery->where('category_id', (int)$request->query('category'));
         if ($request->query('user')) $postsQuery->where('user_id', (int)$request->query('user'));
-        $posts = $postsQuery->paginate(2)->withQueryString();
+        $posts = $postsQuery->paginate(10)->withQueryString();
         return view('post.index', compact('posts'));
     }
 

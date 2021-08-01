@@ -41,4 +41,8 @@ Auth::routes();
 Route::resource('categories', CategoryController::class);
 Route::resource('posts', PostController::class);
 
+Route::get('admin', function () {
+    return "Buraların paşasının ekranı";
+})->name('admin')->middleware(['auth', 'admin']);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
