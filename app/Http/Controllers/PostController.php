@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -25,9 +26,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with(['user', 'category'])->get();
+        $postsQuery = Post::with(['user', 'category'])->latest();
+        if ($request->query('category')) $postsQuery->where('category_id', (int)$request->query('category'));
+        if ($request->query('user')) $postsQuery->where('user_id', (int)$request->query('user'));
+        $posts = $postsQuery->paginate(2)->withQueryString();
         return view('post.index', compact('posts'));
     }
 
@@ -53,7 +57,8 @@ class PostController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|min:3',
-            'content' => 'required'
+            'content' => 'required',
+            'tags' => 'nullable|string'
         ]);
 
         $post = new Post;
@@ -62,6 +67,26 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
+
+        //  etiketleri ekleyeceğiz
+        //  etiketler tags halinde tek bir string olarak geliyor
+        //  aralarında virgül var
+        //  virgül haricinde aralarında boşluk olabilir
+        //  öncelikle metni virgülden parçalayacağız
+        //  her bir eleman için:
+        //      virgüllerle ayrılan her bir parçanın başındaki ve sonundaki boşlukları temizleyeceğiz
+        //      bu isimde bir etiket varsa seçilmesini, yoksa yaratılmasını sağlayacağız
+        //      bu sayede artık bildiğimiz Tag'idsini yeni yarattığımız Post'a attach ile bağlayacağız
+
+        if ($request->tags) {
+            $tagsToAttach = array_unique(array_map('trim', explode(",", $request->tags)));
+            foreach ($tagsToAttach as $tagName) {
+                $tag = Tag::firstOrCreate([
+                    'name' => $tagName
+                ]);
+                $post->tags()->attach($tag->id);
+            }
+        }
 
         session()->flash('status', __('Post created!'));
 

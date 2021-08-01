@@ -26,6 +26,9 @@
                     @endforeach
                 </div>
             </div>
+            <div class="my-2">
+                {{ $posts->links() }}
+            </div>
         </div>
     </div>
 </div>

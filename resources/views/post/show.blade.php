@@ -22,8 +22,18 @@
                     {{$post->content}}
                     <hr>
                     {{ __('Category') }}: <a
-                        href="{{ route('categories.show', $post->category) }}">{{ $post->category->name }}</a><br>
-                    {{ __('Author') }}: {{ $post->user->name }}
+                        href="{{ route('posts.index', ['category' => $post->category->id]) }}">{{ $post->category->name }}</a><br>
+                    {{ __('Author') }}:
+                    <a href="{{ route('posts.index', ['user' => $post->user->id]) }}">
+                        {{ $post->user->name }}
+                    </a>
+                    <br>
+                    {{ __('Tags') }}:
+                    @foreach ($post->tags as $tag)
+                    <a href="#">
+                        {{ $tag->name }}
+                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>

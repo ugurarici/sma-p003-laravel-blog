@@ -34,7 +34,8 @@
                         </div>
                         <div class="form-group">
                             <label for="inpTitle">{{ __('Post Title') }}</label>
-                            <input type="text" name="title" class="form-control" id="inpTitle">
+                            <input type="text" name="title" class="form-control" id="inpTitle"
+                                value="{{ old('title') }}">
                             @error('title')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -43,8 +44,20 @@
                         </div>
                         <div class="form-group">
                             <label for="txtContent">{{ __('Post Content') }}</label>
-                            <textarea name="content" class="form-control" id="txtContent"></textarea>
+                            <textarea name="content" class="form-control"
+                                id="txtContent">{{ old('content') }}</textarea>
                             @error('content')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="inpTags">{{ __('Post Tags') }}</label>
+                            <input type="text" name="tags" class="form-control" id="inpTags" value="{{ old('tags') }}"
+                                aria-describedby="tagsHelp">
+                            <small id="tagsHelp" class="form-text text-muted">{{ __('Seperate with commas.') }}</small>
+                            @error('tags')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
