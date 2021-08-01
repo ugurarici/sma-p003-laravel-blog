@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -68,25 +67,7 @@ class PostController extends Controller
         $post->content = $request->content;
         $post->save();
 
-        //  etiketleri ekleyeceğiz
-        //  etiketler tags halinde tek bir string olarak geliyor
-        //  aralarında virgül var
-        //  virgül haricinde aralarında boşluk olabilir
-        //  öncelikle metni virgülden parçalayacağız
-        //  her bir eleman için:
-        //      virgüllerle ayrılan her bir parçanın başındaki ve sonundaki boşlukları temizleyeceğiz
-        //      bu isimde bir etiket varsa seçilmesini, yoksa yaratılmasını sağlayacağız
-        //      bu sayede artık bildiğimiz Tag'idsini yeni yarattığımız Post'a attach ile bağlayacağız
-
-        if ($request->tags) {
-            $tagsToAttach = array_unique(array_map('trim', explode(",", $request->tags)));
-            foreach ($tagsToAttach as $tagName) {
-                $tag = Tag::firstOrCreate([
-                    'name' => $tagName
-                ]);
-                $post->tags()->attach($tag->id);
-            }
-        }
+        $post->setTags($request->tags);
 
         session()->flash('status', __('Post created!'));
 
