@@ -57,13 +57,14 @@
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('Update Post') }}</button>
                     </form>
+                    @can('delete', $post)
                     <hr>
                     <form action="{{ route('posts.destroy', $post) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">{{ __('Delete Post') }}</button>
                     </form>
-
+                    @endcan
                 </div>
             </div>
         </div>

@@ -7,9 +7,9 @@
             <div class="card">
                 <div class="card-header">
                     {{ $post->title }}
-                    @auth
+                    @can('update', $post)
                     <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-warning">{{ __('Edit Post') }}</a>
-                    @endauth
+                    @endcan
                 </div>
 
                 <div class="card-body">
@@ -27,6 +27,7 @@
                     <a href="{{ route('posts.index', ['user' => $post->user->id]) }}">
                         {{ $post->user->name }}
                     </a>
+                    <input type="text" value="{{ $post->user->email }}" disabled>
                     <br>
                     {{ __('Tags') }}:
                     @foreach ($post->tags as $tag)
