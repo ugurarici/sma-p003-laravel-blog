@@ -5,9 +5,11 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Mahmut\Muarrem;
+use App\Models\Category;
 use Cmfcmf\OpenWeatherMap;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,5 +42,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        View::share('isim', 'Uğur Arıcı');
+        try {
+            View::share('menuCategories', Category::all());
+        } catch (\Throwable $th) {
+            View::share('menuCategories', []);
+        }
     }
 }

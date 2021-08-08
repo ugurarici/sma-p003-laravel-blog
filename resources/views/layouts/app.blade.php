@@ -43,6 +43,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
                         </li>
+                        @foreach($menuCategories as $menuCategory)
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="{{ route('posts.index', ['category' => $menuCategory->id]) }}">{{ $menuCategory->name }}</a>
+                        </li>
+                        @endforeach
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://ugurarici.com" target="_blank">{{ $isim }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
