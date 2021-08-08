@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Mahmut\Muarrem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Muarrem::class, function ($app) {
+            return new Muarrem(config('muarrem.artist'));
+        });
     }
 
     /**

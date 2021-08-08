@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Mahmut\Muarrem;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +47,19 @@ Route::get('admin', function () {
 })->name('admin')->middleware(['auth', 'admin']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('muarrem', function (Muarrem $muarrem) {
+    //  bu closure içinde kullanabileceğimiz bir $muarrem objesi var
+    //  parametre olarak girerken Muarrem şeklinde sınıfını belirttiğimiz anda
+    //  Laravel bu sınıftan bir obje türetip, bu closure içinde kullanımımıza sunmaya çalışır
+    //  Eğer bu sınıf, herhangi bir şekilde parametre alması gerekmiyorsa sorun yoktur
+    //  ilgili sınıftan `new Muarrem` şeklinde bir obje türetilir ve döndürülü
+    //  Ancak; bu sınıftan bir obje türetilmesi için parametre gerekiyorsa
+    //  bir Service Provider aracılığıyla, bu sınıftan bir obje gerektiğinde
+    //  o objenin hangi parametrelerle nasıl türetileceği Laravel'e öğretilir
+    //  biz bu örnekte bu işlemi app/Providers/AppServiceProvider.php dosyasının register() metodunda yaptık
+    //  böylece, oluşturulması için bir parametre gerekmesine rağmen
+    //  Laravel uygulamamızın Service Container aracılığıyla bağımlılık sızdırma imkanı bulunan
+    //  bütün alanlarında, Muarrem sınıfından bir objenin ilgili closure'a sızdırılmasını sağladık
+    return $muarrem->singasong();
+});
