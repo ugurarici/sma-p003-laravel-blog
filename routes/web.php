@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Mahmut\Muarrem;
+use Cmfcmf\OpenWeatherMap;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,4 +63,10 @@ Route::get('muarrem', function (Muarrem $muarrem) {
     //  Laravel uygulamamızın Service Container aracılığıyla bağımlılık sızdırma imkanı bulunan
     //  bütün alanlarında, Muarrem sınıfından bir objenin ilgili closure'a sızdırılmasını sağladık
     return $muarrem->singasong();
+});
+
+
+Route::get('owm', function (OpenWeatherMap $owm) {
+    $weather = $owm->getWeather('Istanbul', 'metric', 'tr');
+    dd($weather);
 });
