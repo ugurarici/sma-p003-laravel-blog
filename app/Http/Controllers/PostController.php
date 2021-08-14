@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Mail\PostCreated;
-use Illuminate\Support\Facades\Mail;
+use App\Events\PostCreated as PostCreatedEvent;
 
 class PostController extends Controller
 {
@@ -78,7 +77,7 @@ class PostController extends Controller
 
         session()->flash('status', __('Post created!'));
 
-        Mail::to($request->user())->send(new PostCreated($post));
+        PostCreatedEvent::dispatch($post);
 
         return redirect()->route('posts.show', $post);
     }
