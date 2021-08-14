@@ -41,6 +41,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('categories', CategoryController::class);
+Route::get('categories/{category}/follow', [CategoryController::class, 'follow'])->name('categories.follow');
+Route::get('categories/{category}/unfollow', [CategoryController::class, 'unfollow'])->name('categories.unfollow');
 Route::resource('posts', PostController::class);
 
 Route::get('admin', function () {

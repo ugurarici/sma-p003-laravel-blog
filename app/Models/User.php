@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public function followed_categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_followers');
+    }
 }
