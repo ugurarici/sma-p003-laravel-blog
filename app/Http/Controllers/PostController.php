@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Events\PostCreated as PostCreatedEvent;
 
 class PostController extends Controller
 {
@@ -76,8 +75,6 @@ class PostController extends Controller
         $post->setTags($request->tags);
 
         session()->flash('status', __('Post created!'));
-
-        PostCreatedEvent::dispatch($post);
 
         return redirect()->route('posts.show', $post);
     }
