@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Mail\PostCreated;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -75,6 +77,8 @@ class PostController extends Controller
         $post->setTags($request->tags);
 
         session()->flash('status', __('Post created!'));
+
+        Mail::to($request->user())->send(new PostCreated($post));
 
         return redirect()->route('posts.show', $post);
     }
