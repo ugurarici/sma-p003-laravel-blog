@@ -5,6 +5,9 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,20 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('posts', function () {
-    //  return a list of posts as JSON
-    return Post::all();
-});
-
-Route::get('posts/{post}', function ($post) {
-    //  return a Post's detail
-    return Post::with(['user', 'category'])->findOrFail($post);
-});
-
-Route::get('categories', function () {
-    return Category::withCount(['posts'])->get();
-});
-
-Route::get('users', function () {
-    return User::withCount(['posts'])->get();
-});
+Route::get('posts', [PostController::class, 'index'])->name('api.posts.index');
+Route::get('posts/{post}', [PostController::class, 'show'])->name('api.posts.show');
+Route::get('categories', [CategoryController::class, 'index'])->name('api.categories.index');
+Route::get('users', [UserController::class, 'index'])->name('api.users.index');
