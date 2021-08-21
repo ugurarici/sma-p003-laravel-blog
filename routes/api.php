@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('posts', function () {
+    //  return a list of posts as JSON
+    return Post::all();
+});
+
+Route::get('posts/{post}', function ($post) {
+    //  return a Post's detail
+    $post = Post::with(['user', 'category'])->findOrFail($post);
+    return $post;
+});
+
+Route::get('categories', function () {
+    return Category::with(['posts.count'])->get();
+});
+
+Route::get('users', function () {
+    return User::with(['posts.count'])->get();
 });
