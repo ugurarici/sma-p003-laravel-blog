@@ -28,14 +28,13 @@ Route::get('posts', function () {
 
 Route::get('posts/{post}', function ($post) {
     //  return a Post's detail
-    $post = Post::with(['user', 'category'])->findOrFail($post);
-    return $post;
+    return Post::with(['user', 'category'])->findOrFail($post);
 });
 
 Route::get('categories', function () {
-    return Category::with(['posts.count'])->get();
+    return Category::withCount(['posts'])->get();
 });
 
 Route::get('users', function () {
-    return User::with(['posts.count'])->get();
+    return User::withCount(['posts'])->get();
 });
