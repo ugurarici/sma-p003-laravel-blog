@@ -38,7 +38,7 @@ class SendReminderMail implements ShouldQueue
 
         $users->each(function ($user) {
             $newPostsForUser = Post::query()
-                ->whereIn('category_id', $user->followed_categories()->pluck('id'))
+                ->whereIn('category_id', $user->followedCategories()->pluck('id'))
                 ->where('created_at', '>=', now()->subWeek())
                 ->orderBy('created_at', 'ASC')
                 ->get();
