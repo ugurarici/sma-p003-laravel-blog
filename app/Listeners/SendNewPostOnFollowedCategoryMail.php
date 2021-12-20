@@ -29,6 +29,7 @@ class SendNewPostOnFollowedCategoryMail
     public function handle(PostCreated $event)
     {
         foreach ($event->post->category->followers as $follower) {
+            if ($event->post->user->id === $follower->id) continue;
             Mail::to($follower)->send(new NewPostOnFollowedCategory($event->post));
         }
     }
